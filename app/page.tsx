@@ -46,7 +46,7 @@ export default function BookList() {
                 <TableRow key={book.itemId}>
                   <TableCell>
                     <Button variant="link" asChild>
-                      <Link href={`/book/${book.itemId}`}>{book.bookTitle}</Link>
+                      <Link href={`/books/${book.itemId}`}>{book.bookTitle}</Link>
                     </Button>
                   </TableCell>
                   <TableCell>{book.pageCount.toLocaleString()}</TableCell>
