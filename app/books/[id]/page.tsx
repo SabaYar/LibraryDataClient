@@ -16,6 +16,9 @@ import {
 import { PageContainer } from "@/components/page-container"
 import { Loading } from "@/components/loading"
 import { LoadingError } from "@/components/loading-error"
+import { deleteBook } from "@/lib/api/books"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
 
 export default function BookDetails() {
   const { id } = useParams()
@@ -23,6 +26,17 @@ export default function BookDetails() {
     queryKey: ["book", id],
     queryFn: () => fetchBook(id as string),
   })
+  const queryClient = useQueryClient()
+  const router = useRouter()
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteBook,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["books"] })
+      router.push("/")
+    },
+  })
+
 
   console.log('Book details data:', data)
 
@@ -70,6 +84,17 @@ export default function BookDetails() {
           <TableIcon />
           List Books
         </Link>
+      </Button>
+      <Button
+        className="mt-2 bg-red-600 hover:bg-red-700"
+        onClick={() => {
+          if (!data) return;
+          if (confirm("Are you sure you want to delete this book?")) {
+            deleteMutation.mutate(data.itemId)
+          }
+        }}
+      >
+        Delete Book
       </Button>
     </PageContainer>
   )
