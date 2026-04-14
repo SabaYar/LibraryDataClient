@@ -55,44 +55,78 @@ export default function NewBook() {
           )}
         >
           <CardContent className="flex flex-col gap-4">
-            <input {...form.register("itemId")} placeholder="Item ID" />
-            <p>{form.formState.errors.itemId?.message}</p>
+            <div className="flex flex-col gap-1">
+              <label className="font-medium">Item ID</label>
+              <input
+                {...form.register("itemId")}
+                className="rounded border p-2"
+              />
+              <p className="text-sm text-red-500">
+                {form.formState.errors.itemId?.message}
+              </p>
+            </div>
 
-            <input {...form.register("isbn")} placeholder="ISBN" />
-            <p>{form.formState.errors.isbn?.message}</p>
+            <div className="flex flex-col gap-1">
+              <label className="font-medium">ISBN</label>
+              <input
+                {...form.register("isbn")}
+                className="rounded border p-2"
+              />
+              <p className="text-sm text-red-500">
+                {form.formState.errors.isbn?.message}
+              </p>
+            </div>
 
-            <input {...form.register("bookTitle")} placeholder="Book Title" />
-            <p>{form.formState.errors.bookTitle?.message}</p>
+            <div className="flex flex-col gap-1">
+              <label className="font-medium">Book Title</label>
+              <input
+                {...form.register("bookTitle")}
+                className="rounded border p-2"
+              />
+              <p className="text-sm text-red-500">
+                {form.formState.errors.bookTitle?.message}
+              </p>
+            </div>
 
-            <input
-              type="number"
-              {...form.register("pageCount", { valueAsNumber: true })}
-              placeholder="Page Count"
-            />
-            <p>{form.formState.errors.pageCount?.message}</p>
+            <div className="flex flex-col gap-1">
+              <label className="font-medium">Page Count</label>
+              <input
+                type="number"
+                {...form.register("pageCount", { valueAsNumber: true })}
+                className="rounded border p-2"
+              />
+              <p className="text-sm text-red-500">
+                {form.formState.errors.pageCount?.message}
+              </p>
+            </div>
 
-            <Controller
-              control={form.control}
-              name="isAvailable"
-              render={({ field }) => (
-                <label className="flex items-center gap-2">
+            <div className="flex flex-col gap-1">
+              <label className="font-medium">Availability</label>
+              <Controller
+                control={form.control}
+                name="isAvailable"
+                render={({ field }) => (
                   <input
                     type="checkbox"
                     checked={field.value || false}
                     onChange={(e) => field.onChange(e.target.checked)}
                   />
-                  Available?
-                </label>
-              )}
-            />
+                )}
+              />
+            </div>
 
-            <input
-              type="number"
-              step="0.01"
-              {...form.register("lateFeeUsd", { valueAsNumber: true })}
-              placeholder="Late Fee (USD)"
-            />
-            <p>{form.formState.errors.lateFeeUsd?.message}</p>
+            <div className="flex flex-col gap-1">
+              <label className="font-medium">Late Fee (USD)</label>
+              <input
+                type="number"
+                step="0.01"
+                {...form.register("lateFeeUsd", { valueAsNumber: true })}
+                className="rounded border p-2"
+              />
+              <p className="text-sm text-red-500">
+                {form.formState.errors.lateFeeUsd?.message}
+              </p>
+            </div>
 
             <button type="submit" disabled={mutation.isPending}>
               {mutation.isPending ? "Creating..." : "Create Book"}
