@@ -44,6 +44,7 @@ export default function BookDetails() {
   if (error) return <LoadingError message={error.message} retry={refetch}/>
 
   return (
+
     <PageContainer>
       <h1 className="text-4xl text-green-700">Book Details</h1>
       <Card className="w-full p-6">

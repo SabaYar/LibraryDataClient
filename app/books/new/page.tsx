@@ -11,7 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { BookFormData, booksSchema } from "@/lib/validation/booksSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { APIError } from "@/lib/api/types"
 import { AxiosError } from "axios"
 import { z } from "zod"
@@ -23,6 +23,7 @@ export default function NewBook() {
 
   const form = useForm<
     z.input<typeof booksSchema>,
+    unknown,
     z.output<typeof booksSchema>
   >({
     resolver: zodResolver(booksSchema),
@@ -32,7 +33,7 @@ export default function NewBook() {
       bookTitle: "",
       pageCount: 1,
       isAvailable: false,
-      lateFeeUsd: 0.0,
+      lateFeeUsd: 0,
     },
   })
     const mutation = useMutation({
@@ -48,7 +49,11 @@ export default function NewBook() {
     <PageContainer>
       <h1 className="text-4xl text-green-700">Add Book</h1>
       <Card className="w-full p-6">
-        <form onSubmit={form.handleSubmit((data) => mutation.mutate(data as BookFormData))}>
+        <form
+          onSubmit={form.handleSubmit((data) =>
+            mutation.mutate(data as BookFormData)
+          )}
+        >
           <CardContent className="flex flex-col gap-4">
             <input {...form.register("itemId")} placeholder="Item ID" />
             <p>{form.formState.errors.itemId?.message}</p>
@@ -66,10 +71,20 @@ export default function NewBook() {
             />
             <p>{form.formState.errors.pageCount?.message}</p>
 
-            <label className="flex items-center gap-2">
-              <input type="checkbox" {...form.register("isAvailable")} />
-              Available?
-            </label>
+            <Controller
+              control={form.control}
+              name="isAvailable"
+              render={({ field }) => (
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={field.value || false}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                  Available?
+                </label>
+              )}
+            />
 
             <input
               type="number"
