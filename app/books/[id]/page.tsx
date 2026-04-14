@@ -37,14 +37,10 @@ export default function BookDetails() {
     },
   })
 
-
-  console.log('Book details data:', data)
-
   if (isLoading) return <Loading />
   if (error) return <LoadingError message={error.message} retry={refetch}/>
 
   return (
-
     <PageContainer>
       <h1 className="text-4xl text-green-700">Book Details</h1>
       <Card className="w-full p-6">
@@ -86,10 +82,16 @@ export default function BookDetails() {
           List Books
         </Link>
       </Button>
+      <Button className="mt-2" asChild>
+        <Link href={`/books/${id}/edit`}>
+          <TableIcon />
+          Edit Book
+        </Link>
+      </Button>
       <Button
         className="mt-2 bg-red-600 hover:bg-red-700"
         onClick={() => {
-          if (!data) return;
+          if (!data) return
           if (confirm("Are you sure you want to delete this book?")) {
             deleteMutation.mutate(data.itemId)
           }

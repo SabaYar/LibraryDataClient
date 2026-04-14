@@ -17,7 +17,7 @@ import { AxiosError } from "axios"
 import { z } from "zod"
 
 
-export default function NewBook() {
+export default function NewBookDetails() {
   const router = useRouter()
   const queryClient = useQueryClient()
 
