@@ -6,3 +6,9 @@ export interface Book {
   isAvailable: boolean
   lateFeeUsd: number
 }
+
+export type APIError = {
+  status: number
+  error: string
+  message: string
+}
