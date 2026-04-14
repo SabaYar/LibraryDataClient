@@ -57,6 +57,11 @@ export default function BookList() {
           </Table>
         </CardContent>
       </Card>
+      <Button asChild className="mb-4">
+        <Link href="/books/new">
+          Add Book
+        </Link>
+      </Button>
     </PageContainer>
   )
 }
